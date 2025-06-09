@@ -1,0 +1,130 @@
+body {
+  background-color: #f7f7fa;
+  font-family: "Pretendard Variable", sans-serif;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 56vw;
+  margin: 0 auto 0 auto;
+}
+
+/* header 영역 */
+header {
+  text-align: center;
+  margin-top: 14vh;
+  margin-bottom: 6vh;
+}
+
+.title {
+  font-size: 5vw;
+}
+
+/* 탭 nav 영역 */
+.select-tab-navigation {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto 2vh auto;
+}
+
+/* 버튼 공통 속성 관리 */
+.select-tab-navigation button {
+  width: 26.3vw;
+  height: 6.8vh;
+  background-color: #fdfdfd;
+  border: 0px;
+  cursor: pointer;
+}
+
+#select-incomplete-btn {
+  border-radius: 10px 0 0 10px;
+  border-right: 2px solid #d8d8d8;
+  font-size: 1.6vw;
+}
+
+#select-complete-btn {
+  border-radius: 0 10px 10px 0;
+    font-size: 1.6vw;
+
+}
+
+/* todo 추가 영역 */
+.add-todo-section {
+  width: 100%;
+  margin-bottom: 3vh;
+}
+
+#add-todo-form {
+  height: 7.1vh;
+  width: 54vw;
+  background-color: #fdfdfd;
+  border-radius: 20px;
+}
+
+#add-todo-input {
+  height: 100%;
+  width: 90%;
+  border: 0px;
+}
+
+/* 포커스 border 효과 제거 */
+#add-todo-input:focus {
+  outline: 0px;
+  border: 0px;
+  box-shadow: 0px;
+}
+
+#add-todo-btn {
+  height: 100%;
+  width: 5%;
+  margin-left: 3%;
+  background-color: inherit;
+  border: 0px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#todo-list-ul {
+
+}
+
+.todo-list-cell {
+  width: 51vw;
+  height: 5vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.2vw;
+  background-color: #fdfdfd;
+  border-radius: 5px;
+  margin-bottom: 1.2vh;
+}
+
+.todo-list-cell .todo-list-complete-btn{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: #fdfdfd;
+    border: 0px;
+}
+
+/* 추가된 부분 : flex로 엮을 때 wrap으로 엮지 않으면 양쪽으로 못 보냄. */
+.todo-list-cell .align-wrap{
+    display: flex;
+    gap: 0.4vw;
+    align-items: center;
+}
+
+.todo-list-cell .todo-list-optional{
+    background-color: inherit;
+    border: 0px;
+    cursor: pointer;
+}
+
+.todo-list-cell .todo-list-optional{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

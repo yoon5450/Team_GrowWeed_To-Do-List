@@ -5,6 +5,14 @@ import { getStorage } from "./lib/storage.js"
 // save시 Prettier가 작동하도록 설정되어 있으면 아마도 한 줄로 다 엮어버릴 거에요. 
 // 저는 그냥 Shift + Alt + F 눌렀을 때만 작동하도록 설정해뒀습니다.
 
+let inputForm = document.querySelector('#add-todo-form')
+
+// form submit 처리 방지
+inputForm.addEventListener('submit', (e) => { 
+    e.preventDefault();
+})
+
+
 // 완료 탭으로 이동
 function moveToCompleteTab(){
 
