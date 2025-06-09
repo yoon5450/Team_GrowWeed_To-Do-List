@@ -76,3 +76,5 @@ inputForm.addEventListener('submit', (e) => {
 
 ```
 input 영역에 form이 추가됨으로써, submit action 방지를 위해 index.js에 추가되었습니다.
+
+현 Preview에 보이는 내용으로 화면 구현 완료하였습니다. 버튼을 제외한 모든 요소가 vw, vh로 설계되어 반응형으로 작동합니다.
