@@ -41,6 +41,7 @@ header {
 #select-incomplete-btn {
   border-radius: 10px 0 0 10px;
   border-right: 2px solid #d8d8d8;
+  border-bottom: red solid 1px;
   font-size: 1.6vw;
 }
 
@@ -54,18 +55,22 @@ header {
 .add-todo-section {
   width: 100%;
   margin-bottom: 3vh;
+  text-align: center;
 }
 
 #add-todo-form {
   height: 7.1vh;
-  width: 54vw;
+  display: flex;
+  align-items: center;
+  width: 56vw;
   background-color: #fdfdfd;
   border-radius: 20px;
+  box-shadow: 2px 4px 4px #00000040
 }
 
 #add-todo-input {
-  height: 100%;
-  width: 90%;
+  height: 90%;
+  width: 46vw;
   border: 0px;
 }
 
@@ -98,7 +103,7 @@ header {
   align-items: center;
   padding: 0 1.2vw;
   background-color: #fdfdfd;
-  border-radius: 5px;
+  border-radius: 10px;
   margin-bottom: 1.2vh;
 }
 
