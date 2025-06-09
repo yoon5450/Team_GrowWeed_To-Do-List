@@ -105,6 +105,7 @@ header {
   background-color: #fdfdfd;
   border-radius: 10px;
   margin-bottom: 1.2vh;
+  font-size: 1.1vw;
 }
 
 .todo-list-cell .todo-list-complete-btn{
