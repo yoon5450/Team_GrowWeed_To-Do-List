@@ -19,7 +19,7 @@ header {
 }
 
 .title {
-  font-size: 5vw;
+  font-size: clamp(24px, 5vw, 68px);
 }
 
 /* 탭 nav 영역 */
@@ -42,13 +42,12 @@ header {
   border-radius: 10px 0 0 10px;
   border-right: 2px solid #d8d8d8;
   border-bottom: red solid 1px;
-  font-size: 1.6vw;
+  font-size: clamp(14px, 1.6vw, 34px);
 }
 
 #select-complete-btn {
   border-radius: 0 10px 10px 0;
-    font-size: 1.6vw;
-
+  font-size: clamp(14px, 1.6vw, 34px);
 }
 
 /* todo 추가 영역 */
@@ -65,13 +64,14 @@ header {
   width: 56vw;
   background-color: #fdfdfd;
   border-radius: 20px;
-  box-shadow: 2px 4px 4px #00000040
+  box-shadow: 2px 4px 4px #00000040;
 }
 
 #add-todo-input {
   height: 90%;
   width: 46vw;
   border: 0px;
+  font-size: clamp(12px , 1vw, 32px);;
 }
 
 /* 포커스 border 효과 제거 */
@@ -92,7 +92,6 @@ header {
 }
 
 #todo-list-ul {
-
 }
 
 .todo-list-cell {
@@ -108,29 +107,29 @@ header {
   font-size: 1.1vw;
 }
 
-.todo-list-cell .todo-list-complete-btn{
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    background-color: #fdfdfd;
-    border: 0px;
+.todo-list-cell .todo-list-complete-btn {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #fdfdfd;
+  border: 0px;
 }
 
 /* 추가된 부분 : flex로 엮을 때 wrap으로 엮지 않으면 양쪽으로 못 보냄. */
-.todo-list-cell .align-wrap{
-    display: flex;
-    gap: 0.4vw;
-    align-items: center;
+.todo-list-cell .align-wrap {
+  display: flex;
+  gap: 0.4vw;
+  align-items: center;
 }
 
-.todo-list-cell .todo-list-optional{
-    background-color: inherit;
-    border: 0px;
-    cursor: pointer;
+.todo-list-cell .todo-list-optional {
+  background-color: inherit;
+  border: 0px;
+  cursor: pointer;
 }
 
-.todo-list-cell .todo-list-optional{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.todo-list-cell .todo-list-optional {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
