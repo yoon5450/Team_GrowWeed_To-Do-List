@@ -18,24 +18,40 @@
   </head>
   <body>
     <div class="wrap">
+      <!-- 타이틀 헤더 -->
       <header>
-        <h1>TODOWEEDS</h1>
+        <h1 class="title">TODOWEEDS</h1>
       </header>
 
-      <nav>
-        <div class="wrap-view-select-tab"></div>
+      <!-- 탭 네비게이션 -->
+      <nav class="select-tab-navigation">
+        <button type="button" id="select-incomplete-btn">
+          완료하지 않은 작업
+        </button>
+        <button type="button" id="select-complete-btn">완료한 작업</button>
+        <!-- flex 완료하지 않은 작업, 완료한 작업 -->
       </nav>
 
-      <section>
+      <!-- 입력란 -->
+      <section class="add-todo-section">
+        <button type="button">+</button>
         <input
+          id="add-todo-input"
           type="text"
           placeholder="오늘 할 일 추가하기. 엔터키를 눌러 추가할 수 있습니다."
         />
       </section>
-      
+
+      <!-- todo 리스트 main -->
       <main>
-        <ul>
-          <li>figma 디자인</li>
+        <ul id="todo-list-ul">
+          <!-- flex 체크박스, 텍스트 영역, 날짜 영역 텍스트 영역 -->
+          <li class="todo-list-cell">
+            <button class="todo-list-complete-btn">체크</button>
+            <div class="todo-list-text">figma 디자인</div>
+            <div class="todo-list-date">figma 디자인</div>
+            <div class="todo-list-optional">x</div>
+          </li>
           <li>실행 컨텍스트 정리</li>
           <li>용어 정리하기</li>
         </ul>

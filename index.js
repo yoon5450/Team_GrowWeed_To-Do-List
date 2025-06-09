@@ -1,5 +1,6 @@
 import "./lib/dom.js"
 import "./lib/storage.js"
+import { getStorage } from "./lib/storage.js"
 
 // save시 Prettier가 작동하도록 설정되어 있으면 아마도 한 줄로 다 엮어버릴 거에요. 
 // 저는 그냥 Shift + Alt + F 눌렀을 때만 작동하도록 설정해뒀습니다.
