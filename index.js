@@ -4,27 +4,71 @@ import { getStorage, setStorage } from "./lib/storage.js";
 // save시 Prettier가 작동하도록 설정되어 있으면 아마도 한 줄로 다 엮어버릴 거에요.
 // 저는 그냥 Shift + Alt + F 눌렀을 때만 작동하도록 설정해뒀습니다.
 
-let inputForm = getNode("#add-todo-form");
-let inputToDoText = getNode("#add-todo-input");
-let todoUl = getNode("#todo-list-ul");
+// 탭 상태를 보기 위한 전역 flag
+let tabFlag = false;
 
+let inputToDoForm = getNode("#add-todo-form");
+let inputToDoText = getNode("#add-todo-input");
+let inputToDoBtn = getNode("#add-todo-btn");
+let todoUl = getNode("#todo-list-ul");
+let completeTabBtn = getNode("#select-complete-btn");
+let incompleteTabBtn = getNode("#select-incomplete-btn");
+
+// 윈도우가 로드 될 때 (시작될 때)
+window.addEventListener("load", () => {
+  init();
+});
+
+// form submit 처리 방지
+inputToDoForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+});
+
+// 제출 이벤트 처리
+inputToDoBtn.addEventListener("click", () => {
+  handleAdd();
+});
+
+// 키다운 이벤트 처리
 inputToDoText.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     handleAdd();
   }
 });
 
-window.addEventListener("load", () => {
-  init();
+completeTabBtn.addEventListener("click", (e) => {
+  if (!tabFlag) {
+    moveToCompleteTab();
+    completeTabBtn.classList.add("active-tab");
+    incompleteTabBtn.classList.remove("active-tab");
+  }
 });
 
-// form submit 처리 방지
-inputForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+incompleteTabBtn.addEventListener("click", (e) => {
+  if (tabFlag) {
+    moveToInCompleteTab();
+    incompleteTabBtn.classList.add("active-tab");
+    completeTabBtn.classList.remove("active-tab");
+  }
+});
+
+// 생성된 li는 document click 이벤트로 처리해야 함.
+document.addEventListener("click", (e) => {
+  let optionalBtn = e.target.closest(".todo-list-optional");
+  let completeBtn = e.target.closest(".todo-list-complete-btn");
+
+  if (optionalBtn) {
+    const id = optionalBtn.closest("li")?.dataset.id;
+    handleRemove(id);
+  }
+  
+  if(completeBtn) {
+    const id = completeBtn.closest("li")?.dataset.id;
+    handleComplete(id);
+  }
 });
 
 // 추가된 함수 : 버튼과 keydown 이벤트를 한번에 관리하기 위한 컨트롤러
-// 이벤트 리스너에 코드가 너무 과해져서 컨트롤러 형식처럼 분리
 function handleAdd() {
   // validation
   if (inputToDoText.value.trim() === "") {
@@ -40,6 +84,7 @@ function handleAdd() {
 
   setStorage(updated);
   renderItem(itemObj);
+  inputToDoText.value = "";
 }
 
 // 새로운 할 일을 todoListArray에 객체 형태로 추가
@@ -58,26 +103,55 @@ function createItemObject(id, value) {
   };
 }
 
+// `createItem`을 사용해 생성된 `<li>`를 `target` 요소의 맨 뒤에 추가함 (ul 목록 안에 li가 삽입되는 구조)
+function renderItem(itemObj) {
+  const createdLi = createItem(itemObj);
+  insertLast(todoUl, createdLi);
+}
+
 // 추가된 함수 : Date에서 월, 일 format으로 출력
 function dateFormat(date) {
   return `${date.getMonth() + 1}월 ${date.getDate()}일`;
 }
 
 // 완료 탭으로 이동
-function moveToCompleteTab() {}
+function moveToCompleteTab() {
+  tabFlag = true;
+  renderTab();
+}
 
 // 미완료 탭으로 이동
-function moveToImCompleteTab() {}
+// ImComplete -> InComplete로 변경
+function moveToInCompleteTab() {
+  tabFlag = false;
+  renderTab();
+}
+
+// 추가된 함수 : 해당 아이템 완료된 함수를 리턴하는 함수
+function getCompleteTodoListArray(id){
+  let todoListArray = getStorage();
+  let updated = todoListArray.map(
+    (el) => el.id === id ? { ...el, completed: !el.completed } : el)
+  return updated
+}
+
+function handleComplete(id){
+  let updated = getCompleteTodoListArray(id);
+  setStorage(updated)
+  // removeItem 재사용
+  removeItem(id);
+}
 
 // 할 일 항목을 문자열로 생성
 // TODO : 아이콘 때문에 incompleteItem 따로 만들어야 하는 것 아닌가?
-// 항목이 늘어나 객체로 변경.
+// 항목이 늘어나 파라미터를 객체로 변경.
 function createItem(itemObj) {
   /* html */
+  // closet(selector) 가장 근처에 있는 부모 요소를 가져온다.
   return `
     <li class="todo-list-cell" data-id='${itemObj.id}'>
             <div class="align-wrap">
-              <button class="todo-list-complete-btn">
+              <button class="todo-list-complete-btn" >
                 <svg
                   width="24"
                   height="24"
@@ -121,21 +195,32 @@ function createItem(itemObj) {
     `;
 }
 
-// `createItem`을 사용해 생성된 `<li>`를 `target` 요소의 맨 뒤에 추가함 (ul 목록 안에 li가 삽입되는 구조)
-function renderItem(itemObj) {
-  const createdLi = createItem(itemObj);
-  insertLast(todoUl, createdLi);
+// 해당 data-id를 가진 <li> 요소를 찾아 DOM에서 제거
+function removeItem(id) {
+  // 지금 전체에 li 1개당 1개 요소씩
+  let todoNodeList = Array.from(todoUl.children);
+  todoNodeList.forEach((todoNodeLi) => {
+    if (todoNodeLi.dataset.id === id) {
+      todoNodeLi.remove();
+    }
+  });
 }
 
-// 해당 data-id를 가진 <li> 요소를 찾아 DOM에서 제거
-function removeItem(id) {}
-
 // 배열에서 해당 id와 일치하는 항목을 제거 (filter 사용)
-function removeItemArray(id) {}
+function removeItemArray(id) {
+  let todoListArray = getStorage();
+  let updated = todoListArray.filter((el) => id !== el.id);
+  return updated;
+}
 
 // <ul> 안에서 항목을 클릭하면 실행됨
 // 해당 항목을 제거하고, 배열에서도 삭제하며, localStorage 업데이트
-function handleRemove(e) {}
+// handleAdd()
+function handleRemove(id) {
+  let updated = removeItemArray(id);
+  removeItem(id);
+  setStorage(updated);
+}
 
 // 페이지가 로드되었을 때 실행
 // localStorage에서 기존 todo 데이터를 불러와 목록 복원
@@ -143,6 +228,12 @@ function init() {
   let todoListArray = getStorage();
   todoListArray.forEach((element) => {
     element.date = new Date(element.date);
-    renderItem(element);
+    if (tabFlag === element.completed) renderItem(element);
   });
+}
+
+// 추가된 함수 : 탭이 변경되었을 때 호출됨.
+function renderTab() {
+  todoUl.innerHTML = "";
+  init();
 }
