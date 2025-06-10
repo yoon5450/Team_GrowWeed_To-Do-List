@@ -19,6 +19,16 @@ window.addEventListener("load", () => {
   init();
 });
 
+// 페이지가 로드되었을 때 실행
+// localStorage에서 기존 todo 데이터를 불러와 목록 복원
+function init() {
+  let todoListArray = getStorage();
+  todoListArray.forEach((element) => {
+    element.date = new Date(element.date);
+    if (tabFlag === element.completed) renderItem(element);
+  });
+}
+
 // form submit 처리 방지
 inputToDoForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -61,12 +71,25 @@ document.addEventListener("click", (e) => {
     const id = optionalBtn.closest("li")?.dataset.id;
     handleRemove(id);
   }
-  
-  if(completeBtn) {
+
+  if (completeBtn) {
     const id = completeBtn.closest("li")?.dataset.id;
     handleComplete(id);
   }
 });
+
+// 완료 탭으로 이동
+function moveToCompleteTab() {
+  tabFlag = true;
+  renderTab();
+}
+
+// 미완료 탭으로 이동
+// ImComplete -> InComplete로 변경
+function moveToInCompleteTab() {
+  tabFlag = false;
+  renderTab();
+}
 
 // 추가된 함수 : 버튼과 keydown 이벤트를 한번에 관리하기 위한 컨트롤러
 function handleAdd() {
@@ -87,6 +110,21 @@ function handleAdd() {
   inputToDoText.value = "";
 }
 
+// <ul> 안에서 항목을 클릭하면 실행됨
+// 해당 항목을 제거하고, 배열에서도 삭제하며, localStorage 업데이트
+function handleRemove(id) {
+  let updated = removeItemArray(id);
+  removeItem(id);
+  setStorage(updated);
+}
+
+function handleComplete(id) {
+  let updated = getCompleteTodoListArray(id);
+  setStorage(updated);
+  // removeItem 재사용
+  removeItem(id);
+}
+
 // 새로운 할 일을 todoListArray에 객체 형태로 추가
 function addItemArray(todoListArray, itemObj) {
   let updated = todoListArray.concat(itemObj);
@@ -103,79 +141,102 @@ function createItemObject(id, value) {
   };
 }
 
+// 추가된 함수 : Date에서 월, 일 format으로 출력
+function dateFormat(date) {
+  return `${date.getMonth() + 1}월 ${date.getDate()}일`;
+}
+
+// 추가된 함수 : 현재 시각과 targetDate와의 차이 비교해서 return
+function getDateDiff(targetDate) {
+  const now = new Date(); // 현재 시각
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const target = new Date(targetDate);
+  const targetDateOnly = new Date(target.getFullYear(), target.getMonth(), target.getDate());
+
+  const diffTime = targetDateOnly - today;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 1) return 0
+  else if (diffDays <= 3) return 1
+  else if (diffDays > 3) return 2
+
+  // 음수일 경우
+  return "";
+}
+
+// 추가된 함수 : 해당 아이템 완료된 함수를 리턴하는 함수
+function getCompleteTodoListArray(id) {
+  let todoListArray = getStorage();
+  let updated = todoListArray.map((el) =>
+    el.id === id ? { ...el, completed: !el.completed } : el
+  );
+  return updated;
+}
+
 // `createItem`을 사용해 생성된 `<li>`를 `target` 요소의 맨 뒤에 추가함 (ul 목록 안에 li가 삽입되는 구조)
 function renderItem(itemObj) {
   const createdLi = createItem(itemObj);
   insertLast(todoUl, createdLi);
 }
 
-// 추가된 함수 : Date에서 월, 일 format으로 출력
-function dateFormat(date) {
-  return `${date.getMonth() + 1}월 ${date.getDate()}일`;
-}
-
-// 완료 탭으로 이동
-function moveToCompleteTab() {
-  tabFlag = true;
-  renderTab();
-}
-
-// 미완료 탭으로 이동
-// ImComplete -> InComplete로 변경
-function moveToInCompleteTab() {
-  tabFlag = false;
-  renderTab();
-}
-
-// 추가된 함수 : 해당 아이템 완료된 함수를 리턴하는 함수
-function getCompleteTodoListArray(id){
-  let todoListArray = getStorage();
-  let updated = todoListArray.map(
-    (el) => el.id === id ? { ...el, completed: !el.completed } : el)
-  return updated
-}
-
-function handleComplete(id){
-  let updated = getCompleteTodoListArray(id);
-  setStorage(updated)
-  // removeItem 재사용
-  removeItem(id);
-}
-
 // 할 일 항목을 문자열로 생성
-// TODO : 아이콘 때문에 incompleteItem 따로 만들어야 하는 것 아닌가?
 // 항목이 늘어나 파라미터를 객체로 변경.
 function createItem(itemObj) {
+  // 작업 완료 상태, font-color class 정의
+  const svgIcons = 
+  {
+    true: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_35_85)">
+        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z" fill="#9CE3A5"/>
+        </g>
+        <defs>
+        <clipPath id="clip0_35_85">
+        <rect width="24" height="24" fill="white"/>
+        </clipPath>
+        </defs>
+        </svg>`,
+    false: `<svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g clip-path="url(#clip0_35_88)">
+          <path
+            d="M12 2C6.47 2 2 6.47 2 12C2 17.53 6.47 22 12 22C17.53 22 22 17.53 22 12C22 6.47 17.53 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20Z"
+            fill="#A4A4A4"
+          />
+        </g>
+        <defs>
+          <clipPath id="clip0_35_88">
+            <rect width="24" height="24" fill="white" />
+          </clipPath>
+        </defs>
+      </svg>
+    `
+  };
+
+  const fontColorClasses = ['date-normal',
+    'date-warm',
+    'date-danger'
+  ]
+
+  let DateDiffClass = tabFlag ? "" : fontColorClasses[getDateDiff(itemObj.date)];
+
   /* html */
   // closet(selector) 가장 근처에 있는 부모 요소를 가져온다.
   return `
     <li class="todo-list-cell" data-id='${itemObj.id}'>
             <div class="align-wrap">
               <button class="todo-list-complete-btn" >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g clip-path="url(#clip0_35_88)">
-                    <path
-                      d="M12 2C6.47 2 2 6.47 2 12C2 17.53 6.47 22 12 22C17.53 22 22 17.53 22 12C22 6.47 17.53 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20Z"
-                      fill="#A4A4A4"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_35_88">
-                      <rect width="24" height="24" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
+              ${svgIcons[String(itemObj.completed)]}
               </button>
               <div class="todo-list-text">${itemObj.contents}</div>
             </div>
             <div class="align-wrap">
-            <div class="todo-list-date">${dateFormat(itemObj.date)}</div>
+            <div class="todo-list-date ${DateDiffClass}">${dateFormat(itemObj.date)}</div>
             <button type="button" class="todo-list-optional">
               <svg
                 width="20"
@@ -211,25 +272,6 @@ function removeItemArray(id) {
   let todoListArray = getStorage();
   let updated = todoListArray.filter((el) => id !== el.id);
   return updated;
-}
-
-// <ul> 안에서 항목을 클릭하면 실행됨
-// 해당 항목을 제거하고, 배열에서도 삭제하며, localStorage 업데이트
-// handleAdd()
-function handleRemove(id) {
-  let updated = removeItemArray(id);
-  removeItem(id);
-  setStorage(updated);
-}
-
-// 페이지가 로드되었을 때 실행
-// localStorage에서 기존 todo 데이터를 불러와 목록 복원
-function init() {
-  let todoListArray = getStorage();
-  todoListArray.forEach((element) => {
-    element.date = new Date(element.date);
-    if (tabFlag === element.completed) renderItem(element);
-  });
 }
 
 // 추가된 함수 : 탭이 변경되었을 때 호출됨.

@@ -3,6 +3,15 @@ body {
   font-family: "Pretendard Variable", sans-serif;
 }
 
+#side-menu-btn{
+  position: absolute;
+  top: 1.6vh;
+  left: 1vw;
+  background-color: inherit;
+  border: 0px;
+  cursor: pointer;
+}
+
 .wrap {
   display: flex;
   flex-direction: column;
@@ -14,12 +23,13 @@ body {
 /* header 영역 */
 header {
   text-align: center;
-  margin-top: 14vh;
+  margin-top: 8vh;
   margin-bottom: 6vh;
 }
 
-.title {
-  font-size: clamp(24px, 5vw, 68px);
+.title-header-img {
+  width: 30vw;
+  height: calc(30vw * 0.199);
 }
 
 /* 탭 nav 영역 */
@@ -36,7 +46,7 @@ header {
   background-color: #fdfdfd;
   border: 0px;
   cursor: pointer;
-  transition: border-bottom 0.5s;
+  transition: border-bottom 0.2s;
 }
 
 #select-incomplete-btn {
@@ -56,7 +66,7 @@ header {
   border-bottom: red solid 2px;
 }
 
-/* todo 추가 영역 */
+/* todo 추가되는 섹션 */
 .add-todo-section {
   width: 100%;
   margin-bottom: 3vh;
@@ -117,6 +127,24 @@ header {
   background-color: #fdfdfd;
   border: 0px;
 }
+
+.todo-list-date{
+  font-size: 0.9vw;
+}
+
+/* 추가된 부분 : date 상태 색상 관리 */
+.date-normal{
+  color: #00AD14;
+}
+
+.date-warm{
+  color: #EDBE06;
+}
+
+.date-danger{
+  color: #CF0404
+}
+
 
 /* 추가된 부분 : flex로 엮을 때 wrap으로 엮지 않으면 양쪽으로 못 보냄. */
 .todo-list-cell .align-wrap {
