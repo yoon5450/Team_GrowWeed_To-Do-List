@@ -33,7 +33,7 @@ todolist를 localStorage 라이브러리를 이용해서 관리하는 프로젝�
 | ----- | -------------------------------------------------- |
 | 언어    | `HTML`, `CSS`, `JavaScript`                        |
 | 저장 방식 | `localStorage`                                     |
-| 환경    | `Vanilla JS` 기반 모듈화 (`ES Module`, `import/export`) |
+| 환경    | `Vanilla JS` 기반 모듈화 (`import/export`) |
 | 스타일   | CSS 모듈 방식, 애니메이션 및 상태 변화 클래스 적용                    |
 | 기타    | `VS Code`, `Prettier` 코드 포맷 설정                     |
 
