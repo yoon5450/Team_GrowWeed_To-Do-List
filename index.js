@@ -7,14 +7,13 @@ import { getStorage, setStorage } from "./lib/storage.js";
 // 탭 상태를 보기 위한 전역 flag
 let tabFlag = false;
 
-let inputToDoForm = getNode("#add-todo-form");
+let inputForm = getNode("#add-todo-form");
 let inputToDoText = getNode("#add-todo-input");
-let inputToDoBtn = getNode("#add-todo-btn");
 let todoUl = getNode("#todo-list-ul");
 let completeTabBtn = getNode("#select-complete-btn");
 let incompleteTabBtn = getNode("#select-incomplete-btn");
 
-// 윈도우가 로드 될 때 (시작될 때)
+// 윈도우가 로드 될 때 초기 실행
 window.addEventListener("load", () => {
   init();
 });
@@ -29,20 +28,21 @@ function init() {
   });
 }
 
-// form submit 처리 방지
-inputToDoForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-});
+// 할 일 클릭 이벤트
+// 동적으로 생성된 요소들 이벤트 위임(todoList 자체가 동적으로 생성될 시 document에 이벤트)
+// 김윤지
+todoUl.addEventListener("click", (e) => {
+  const id = e.target.closest("li.todo-list-cell").dataset.id;
 
-// 제출 이벤트 처리
-inputToDoBtn.addEventListener("click", () => {
-  handleAdd();
-});
+  // 할 일 완료 이벤트
+  if (e.target.closest(".todo-list-complete-btn")) {
+    handleComplete(id);
+    return;
+  }
 
-// 키다운 이벤트 처리
-inputToDoText.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    handleAdd();
+  // 할 일 제거 이벤트
+  if (e.target.closest(".todo-list-optional")) {
+    handleRemove(id);
   }
 });
 
@@ -62,33 +62,42 @@ incompleteTabBtn.addEventListener("click", (e) => {
   }
 });
 
-// 생성된 li는 document click 이벤트로 처리해야 함.
-document.addEventListener("click", (e) => {
-  let optionalBtn = e.target.closest(".todo-list-optional");
-  let completeBtn = e.target.closest(".todo-list-complete-btn");
-
-  if (optionalBtn) {
-    const id = optionalBtn.closest("li")?.dataset.id;
-    handleRemove(id);
-  }
-
-  if (completeBtn) {
-    const id = completeBtn.closest("li")?.dataset.id;
-    handleComplete(id);
-  }
+// 할 일 추가 이벤트
+// Form에서 submit event 발생하면 동작(enter, +버튼)
+// 김윤지
+inputForm.addEventListener("submit", (e) => {
+  // reload 방지
+  e.preventDefault();
+  handleAdd();
 });
 
 // 완료 탭으로 이동
+// 성창식
 function moveToCompleteTab() {
   tabFlag = true;
-  renderTab();
+  todoUl.innerHTML = "";
+  let todoListArray = getStorage();
+  todoListArray
+    .filter((item) => item.complete)
+    .forEach((item) => {
+      item.date = new Date(item.date);
+      renderItem(item);
+    });
 }
 
 // 미완료 탭으로 이동
 // ImComplete -> InComplete로 변경
+// 성창식
 function moveToInCompleteTab() {
   tabFlag = false;
-  renderTab();
+  todoUl.innerHTML = "";
+  let todoListArray = getStorage();
+  todoListArray
+    .filter((item) => !item.complete)
+    .forEach((item) => {
+      item.date = new Date(item.date);
+      renderItem(item);
+    });
 }
 
 // 추가된 함수 : 버튼과 keydown 이벤트를 한번에 관리하기 위한 컨트롤러
@@ -102,20 +111,28 @@ function handleAdd() {
   let id = self.crypto.randomUUID();
   let value = inputToDoText.value;
   let itemObj = createItemObject(id, value);
-  let todoListArray = getStorage();
-  let updated = addItemArray(todoListArray, itemObj);
 
-  setStorage(updated);
-  renderItem(itemObj);
+  addItemArray(itemObj);
+  // 완료한 작업에서 입력 시에 방지.
+  if(!tabFlag) renderItem(itemObj);
+}
+
+// 2. 새로운 할 일을 todoListArray에 객체 형태로 추가 + localStorage 저장
+// 정소영
+function addItemArray(todoListObj) {
+  let todoListArray = getStorage();
+  let updated = todoListArray.concat(todoListObj);
   inputToDoText.value = "";
+
+  //localStorage 저장처리
+  setStorage(updated);
 }
 
 // <ul> 안에서 항목을 클릭하면 실행됨
 // 해당 항목을 제거하고, 배열에서도 삭제하며, localStorage 업데이트
 function handleRemove(id) {
-  let updated = removeItemArray(id);
+  removeItemArray(id);
   removeItem(id);
-  setStorage(updated);
 }
 
 function handleComplete(id) {
@@ -123,12 +140,6 @@ function handleComplete(id) {
   setStorage(updated);
   // removeItem 재사용
   removeItem(id);
-}
-
-// 새로운 할 일을 todoListArray에 객체 형태로 추가
-function addItemArray(todoListArray, itemObj) {
-  let updated = todoListArray.concat(itemObj);
-  return updated;
 }
 
 // 추가된 함수 : 아이템 객체를 반환함.
@@ -144,6 +155,15 @@ function createItemObject(id, value) {
 // 추가된 함수 : Date에서 월, 일 format으로 출력
 function dateFormat(date) {
   return `${date.getMonth() + 1}월 ${date.getDate()}일`;
+}
+
+// 오늘의 date를 format으로 받아오는 함수
+// 손영웅
+function getDate(){
+	let now = new Date();
+	let date = `${now.getMonth() + 1}월 ${now.getDate()}일`;
+
+	return date;
 }
 
 // 추가된 함수 : 현재 시각과 targetDate와의 차이 비교해서 return
@@ -270,11 +290,12 @@ function removeItem(id) {
   });
 }
 
-// 배열에서 해당 id와 일치하는 항목을 제거 (filter 사용)
+// 7. 배열에서 해당 id와 일치하는 항목을 제거 (filter 사용)
+// 정소영
 function removeItemArray(id) {
   let todoListArray = getStorage();
-  let updated = todoListArray.filter((el) => id !== el.id);
-  return updated;
+  let updated = todoListArray.filter((todoList) => todoList.id !== id);
+  setStorage(updated);
 }
 
 // 추가된 함수 : 탭이 변경되었을 때 호출됨.
