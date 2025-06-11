@@ -25,7 +25,7 @@ function init() {
   let todoListArray = getStorage();
   todoListArray.forEach((element) => {
     element.date = new Date(element.date);
-    if (tabFlag === element.completed) renderItem(element);
+    if (tabFlag === element.complete) renderItem(element);
   });
 }
 
@@ -137,7 +137,7 @@ function createItemObject(id, value) {
     id,
     contents: value,
     date: new Date(Date.now()),
-    completed: false,
+    complete: false,
   };
 }
 
@@ -173,7 +173,7 @@ function getDateDiff(targetDate) {
 function getCompleteTodoListArray(id) {
   let todoListArray = getStorage();
   let updated = todoListArray.map((el) =>
-    el.id === id ? { ...el, completed: !el.completed } : el
+    el.id === id ? { ...el, complete: !el.complete } : el
   );
   return updated;
 }
@@ -232,7 +232,7 @@ function createItem(itemObj) {
     <li class="todo-list-cell" data-id='${itemObj.id}'>
             <div class="align-wrap">
               <button class="todo-list-complete-btn" >
-              ${svgIcons[String(itemObj.completed)]}
+              ${svgIcons[String(itemObj.complete)]}
               </button>
               <div class="todo-list-text">${itemObj.contents}</div>
             </div>
