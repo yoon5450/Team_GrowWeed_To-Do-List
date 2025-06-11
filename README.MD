@@ -37,34 +37,7 @@ todolist를 localStorage 라이브러리를 이용해서 관리하는 프로젝�
 | 스타일   | CSS 모듈 방식, 애니메이션 및 상태 변화 클래스 적용                    |
 | 기타    | `VS Code`, `Prettier` 코드 포맷 설정                     |
 
-
-
 <br>
-
----
-# 디렉터리 구조
-
-
-Team_GrowWeed_To-Do-List/
-│
-├── lib/
-│   ├── dom.js              # DOM 관련 유틸 함수 모듈
-│   └── storage.js          # localStorage 관련 유틸 함수 모듈
-│
-├── resource/               # 이미지 및 리소스 파일
-│   ├── favicon.png
-│   ├── filelist.png
-│   ├── preview.png
-│   ├── preview-2.png
-│   └── teamweeds-title.png
-│
-├── .gitignore              # Git 무시 설정
-├── eslint.config.mjs       # ESLint 설정 파일 (선택적)
-├── index.html              # HTML 템플릿 파일
-├── index.js                # 메인 JavaScript 실행 로직
-├── style.css               # 전체 스타일 시트
-└── README.md               # 프로젝트 문서 (기능 설명 및 스크린샷 포함)
-
 
 ---
 # Ver 1.0a
