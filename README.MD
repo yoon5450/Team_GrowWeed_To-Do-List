@@ -21,7 +21,7 @@ todolist를 localStorage 라이브러리를 이용해서 관리하는 프로젝�
 | 🕒 날짜 표시    | 항목 추가 시 등록일을 표시, 1\~3일 이내/오래된 항목은 색상 차등 표시 | `dateFormat`, `getDateDiff`, `fontColorClasses`               |
 | 🎨 색상 분류    | 날짜 기준으로 글자색 스타일 지정 (오늘/근접/오래됨)             | `getDateDiff`, `fontColorClasses`                             |
 | 🎯 접근 방식    | 각 `<li>` 항목에 `data-id` 부여하여 식별 및 DOM 조작    | `createItem`, `removeItem`, 이벤트 위임 방식                         |
-|
+
 
 <br>
 
@@ -36,7 +36,7 @@ todolist를 localStorage 라이브러리를 이용해서 관리하는 프로젝�
 | 환경    | `Vanilla JS` 기반 모듈화 (`ES Module`, `import/export`) |
 | 스타일   | CSS 모듈 방식, 애니메이션 및 상태 변화 클래스 적용                    |
 | 기타    | `VS Code`, `Prettier` 코드 포맷 설정                     |
-|
+
 
 
 <br>
