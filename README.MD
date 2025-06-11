@@ -12,15 +12,15 @@ todolist를 localStorage 라이브러리를 이용해서 관리하는 프로젝�
 # 📋  핵심 기능 요약
 | 구분        | 기능 설명                                      | 관련 함수 및 설명                                                    |
 | --------- | ------------------------------------------ | ------------------------------------------------------------- |
-| 📝 할 일 추가 | 입력 후 버튼 클릭 또는 Enter 키로 할 일 추가              | `handleAdd`, `createItemObject`, `addItemArray`, `renderItem` |
-| 🗑 할 일 삭제 | 리스트의 휴지통 아이콘 클릭 시 해당 항목 삭제                 | `handleRemove`, `removeItemArray`, `removeItem`               |
-| ✅ 완료 처리   | 체크 아이콘 클릭 시 완료 여부 전환                       | `handleComplete`, `getCompleteTodoListArray`, `removeItem`    |
-| 📂 탭 전환   | 완료/미완료 탭 클릭 시 해당 리스트 필터링                   | `moveToCompleteTab`, `moveToInCompleteTab`, `renderTab`       |
-| 📦 로컬 저장  | 추가/삭제/완료 시 `localStorage`에 자동 저장           | `getStorage`, `setStorage`                                    |
-| 🔄 초기 렌더  | 페이지 로드시 저장된 목록 불러와 렌더링                     | `init`, `renderItem`                                          |
-| 🕒 날짜 표시  | 항목 추가 시 등록일을 표시, 1\~3일 이내/오래된 항목은 색상 차등 표시 | `dateFormat`, `getDateDiff`, `fontColorClasses`               |
-| 🎨 색상 분류  | 날짜 기준으로 글자색 스타일 지정 (오늘/근접/오래됨)             | `getDateDiff`, `fontColorClasses`                             |
-| 🎯 접근 방식  | 각 `<li>` 항목에 `data-id` 부여하여 식별 및 DOM 조작    | `createItem`, `removeItem`, 이벤트 위임 방식                         |
+| 📝 할 일 추가   | 입력 후 버튼 클릭 또는 Enter 키로 할 일 추가              | `handleAdd`, `createItemObject`, `addItemArray`, `renderItem` |
+| 🗑 할 일 삭제    | 리스트의 휴지통 아이콘 클릭 시 해당 항목 삭제                 | `handleRemove`, `removeItemArray`, `removeItem`               |
+| ✅ 완료 처리    | 체크 아이콘 클릭 시 완료 여부 전환                       | `handleComplete`, `getCompleteTodoListArray`, `removeItem`    |
+| 📂 탭 전환     | 완료/미완료 탭 클릭 시 해당 리스트 필터링                   | `moveToCompleteTab`, `moveToInCompleteTab`, `renderTab`       |
+| 📦 로컬 저장   | 추가/삭제/완료 시 `localStorage`에 자동 저장           | `getStorage`, `setStorage`                                    |
+| 🔄 초기 렌더    | 페이지 로드시 저장된 목록 불러와 렌더링                     | `init`, `renderItem`                                          |
+| 🕒 날짜 표시    | 항목 추가 시 등록일을 표시, 1\~3일 이내/오래된 항목은 색상 차등 표시 | `dateFormat`, `getDateDiff`, `fontColorClasses`               |
+| 🎨 색상 분류    | 날짜 기준으로 글자색 스타일 지정 (오늘/근접/오래됨)             | `getDateDiff`, `fontColorClasses`                             |
+| 🎯 접근 방식    | 각 `<li>` 항목에 `data-id` 부여하여 식별 및 DOM 조작    | `createItem`, `removeItem`, 이벤트 위임 방식                         |
 |
 
 <br>
