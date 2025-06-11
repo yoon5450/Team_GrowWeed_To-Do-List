@@ -154,7 +154,7 @@ function getDateDiff(targetDate) {
   const target = new Date(targetDate);
   const targetDateOnly = new Date(target.getFullYear(), target.getMonth(), target.getDate());
 
-  const diffTime = targetDateOnly - today;
+  const diffTime = today - targetDateOnly;
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
   if (diffDays < 1) return 0
@@ -165,7 +165,7 @@ function getDateDiff(targetDate) {
   return "";
 }
 
-// 추가된 함수 : 해당 아이템 완료된 함수를 리턴하는 함수
+// 추가된 함수 : 해당 아이템 완료된 결과를 리턴하는 함수
 function getCompleteTodoListArray(id) {
   let todoListArray = getStorage();
   let updated = todoListArray.map((el) =>
