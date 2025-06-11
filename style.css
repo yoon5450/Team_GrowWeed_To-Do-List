@@ -66,7 +66,7 @@ header {
   border-bottom: red solid 2px;
 }
 
-/* todo 추가되는 섹션 */
+/* todo 입력란 섹션 */
 .add-todo-section {
   width: 100%;
   margin-bottom: 3vh;
@@ -107,6 +107,8 @@ header {
   font-size: 20px;
 }
 
+/* todo 메인 파트 */
+
 .todo-list-cell {
   width: 51vw;
   height: 6vh;
@@ -126,6 +128,22 @@ header {
   cursor: pointer;
   background-color: #fdfdfd;
   border: 0px;
+}
+
+.todo-list-complete-btn svg path {
+  transition: fill 0.2s ease;
+}
+
+.todo-list-complete-btn circle {
+  transition: stroke 0.2s ease;
+}
+
+.todo-list-complete-btn:hover svg path {
+  fill: #00c851; /* 완료시 강조색 */
+}
+
+.todo-list-complete-btn:hover circle {
+  stroke: #00c851;
 }
 
 .todo-list-date{

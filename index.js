@@ -152,14 +152,18 @@ function getDateDiff(targetDate) {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   const target = new Date(targetDate);
-  const targetDateOnly = new Date(target.getFullYear(), target.getMonth(), target.getDate());
+  const targetDateOnly = new Date(
+    target.getFullYear(),
+    target.getMonth(),
+    target.getDate()
+  );
 
   const diffTime = targetDateOnly - today;
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-  if (diffDays < 1) return 0
-  else if (diffDays <= 3) return 1
-  else if (diffDays > 3) return 2
+  if (diffDays < 1) return 0;
+  else if (diffDays <= 3) return 1;
+  else if (diffDays > 3) return 2;
 
   // 음수일 경우
   return "";
@@ -184,46 +188,43 @@ function renderItem(itemObj) {
 // 항목이 늘어나 파라미터를 객체로 변경.
 function createItem(itemObj) {
   // 작업 완료 상태, font-color class 정의
-  const svgIcons = 
-  {
-    true: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0_35_85)">
-        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z" fill="#9CE3A5"/>
-        </g>
-        <defs>
-        <clipPath id="clip0_35_85">
-        <rect width="24" height="24" fill="white"/>
-        </clipPath>
-        </defs>
-        </svg>`,
-    false: `<svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g clip-path="url(#clip0_35_88)">
-          <path
-            d="M12 2C6.47 2 2 6.47 2 12C2 17.53 6.47 22 12 22C17.53 22 22 17.53 22 12C22 6.47 17.53 2 12 2ZM12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12C20 16.42 16.42 20 12 20Z"
-            fill="#A4A4A4"
-          />
-        </g>
-        <defs>
-          <clipPath id="clip0_35_88">
-            <rect width="24" height="24" fill="white" />
-          </clipPath>
-        </defs>
-      </svg>
-    `
+  const svgIcons = {
+    false: `<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z
+       M12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z
+       M16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z"
+    fill="#9CE3A5"
+  />
+</svg>`,
+    true: `<svg
+  width="22"
+  height="22"
+  viewBox="0 0 22 22"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M8.67 6.576L7.176 3.988L5.808 9.09L10.911 10.457L9.417 7.87C11.558 6.633 14.303 7.369 15.539 9.51C16.776 11.652 16.04 14.397 13.899 15.633C11.757 16.869 9.012 16.134 7.776 13.993L6.482 14.74C8.133 17.599 11.786 18.578 14.646 16.927C17.505 15.276 18.484 11.623 16.833 8.763C15.182 5.904 11.529 4.925 8.67 6.576Z"
+    fill="#8C8C8C"
+  />
+  <circle
+    cx="11"
+    cy="11"
+    r="10.5"
+    stroke="#8C8C8C"
+    stroke-width="1.5"
+    fill="none"
+  />
+</svg>
+
+    `,
   };
 
-  const fontColorClasses = ['date-normal',
-    'date-warm',
-    'date-danger'
-  ]
+  const fontColorClasses = ["date-normal", "date-warm", "date-danger"];
 
-  let DateDiffClass = tabFlag ? "" : fontColorClasses[getDateDiff(itemObj.date)];
+  let DateDiffClass = tabFlag
+    ? ""
+    : fontColorClasses[getDateDiff(itemObj.date)];
 
   /* html */
   // closet(selector) 가장 근처에 있는 부모 요소를 가져온다.
@@ -236,7 +237,9 @@ function createItem(itemObj) {
               <div class="todo-list-text">${itemObj.contents}</div>
             </div>
             <div class="align-wrap">
-            <div class="todo-list-date ${DateDiffClass}">${dateFormat(itemObj.date)}</div>
+            <div class="todo-list-date ${DateDiffClass}">${dateFormat(
+    itemObj.date
+  )}</div>
             <button type="button" class="todo-list-optional">
               <svg
                 width="20"
