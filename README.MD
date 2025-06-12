@@ -40,6 +40,80 @@ todolist를 localStorage 라이브러리를 이용해서 관리하는 프로젝�
 <br>
 
 ---
+
+<br>
+
+---
+
+<br>
+
+# 팀원별 기능 구현 상황
+
+## 윤대웅
+
+- 프로젝트 디자인
+    - figma 이용해 node들의 사이즈 정의함.
+- HTML, CSS 구현
+    - 반응형으로 동작하도록 대부분의 오브젝트 사이즈를 vw, vh로 정의함.
+    - 인터렉션 기능들 추가로 구현 완료
+- 클릭 이벤트, `submit` 이벤트 등 관리
+- TODO  `localStorage` 저장, 삭제
+- TODO 노드요소 삽입 구현
+- TODO 완료, 미완료 상태 구현
+- 완료, 미완료 탭 이동 구현
+- 등록 날짜 기준 하이라이팅 구현
+
+## 김윤지
+
+- 추가 이벤트 구현
+    - `submit`을 통해 +버튼, enter 키 이벤트 한번에 관리
+- 클릭 이벤트 구현(제거, 완료 클릭 시)
+- todo `localStorage` 저장, 삭제
+    - `todoListArray` 전역변수 ⇒ `localStorage`에서 `set`, `get`으로 변경
+- 미완료, 완료 탭 이벤트 구현(탭 상태에 따라 렌더링)
+- 날짜 변환 구현
+    - `localStorage`에서 문자열로 저장됨. date객체로 변환하여 전달
+
+## 정소영
+
+- 제출 이벤트 구현(입력값 읽기, 배열 저장, `localStorage`저장, `li` 생성 및 목록 추가)
+- 삭제 버튼 이벤트 구현(해당 `li` 항목 제거, 제거 항목 배열에서 삭제 및 `localStorage` 업데이트)
+    - `li` 항목 제거(제거는 가능하나 새로고침 필요)
+
+## 성창식
+
+- 할 일 추가 및 삭제 구현
+    - 입력값(text → li)추가, 삭제 버튼 클릭 시 해당 항목 삭제 및 localStorage 업데이트
+- 완료/미완료 상태 토글
+    - 완료 버튼 클릭 시 해당 항목의 완료 상태(`true/false`)를 반전시키고, 아이콘과 텍스트 스타일을 변경하며 `localStorage`도 갱신합니다
+- 이벤트 위임 처리
+    - `ul`에 클릭 이벤트를 위임해 동적으로 생성되는 항목에서도 삭제/완료 버튼이 작동하도록 설정했습니다.
+
+# 손영웅
+
+- `Date` 객체 데이터 전처리 유틸 함수 구현
+
+---
+
+<br>
+
+# 각 팀원별 원본 깃허브
+윤대웅 : https://github.com/yoon5450/MyToDoList
+
+정소영 : https://github.com/Young-mang/Team_GrowWeed_To-Do-List
+
+김윤지 : https://github.com/yoon00/To-Do-List
+
+성창식 : https://github.com/sikchang/Team_GrowWeed_To-Do-List
+
+손영웅 : https://github.com/heroson02/TodoList/
+
+<br>
+
+---
+
+<br>
+
 # Ver 1.0a
 
 lib 디렉터리 유틸 함수 구현 및 디렉터리 구조 설계
@@ -128,65 +202,3 @@ input 영역에 form이 추가됨으로써, submit action 방지를 위해 index
 
 팀원들 코드별로 merge 완료했습니다. 주석으로 작성자의 이름이 적혀 있습니다.
 
-<br>
-
----
-
-<br>
-
-# 팀원별 기능 구현 상황
-
-## 윤대웅
-
-- 프로젝트 디자인
-    - figma 이용해 node들의 사이즈 정의함.
-- HTML, CSS 구현
-    - 반응형으로 동작하도록 대부분의 오브젝트 사이즈를 vw, vh로 정의함.
-    - 인터렉션 기능들 추가로 구현 완료
-- 클릭 이벤트, `submit` 이벤트 등 관리
-- TODO  `localStorage` 저장, 삭제
-- TODO 노드요소 삽입 구현
-- TODO 완료, 미완료 상태 구현
-- 완료, 미완료 탭 이동 구현
-- 등록 날짜 기준 하이라이팅 구현
-
-## 김윤지
-
-- 추가 이벤트 구현
-    - `submit`을 통해 +버튼, enter 키 이벤트 한번에 관리
-- 클릭 이벤트 구현(제거, 완료 클릭 시)
-- todo `localStorage` 저장, 삭제
-    - `todoListArray` 전역변수 ⇒ `localStorage`에서 `set`, `get`으로 변경
-- 미완료, 완료 탭 이벤트 구현(탭 상태에 따라 렌더링)
-- 날짜 변환 구현
-    - `localStorage`에서 문자열로 저장됨. date객체로 변환하여 전달
-
-## 정소영
-
-- 제출 이벤트 구현(입력값 읽기, 배열 저장, `localStorage`저장, `li` 생성 및 목록 추가)
-- 삭제 버튼 이벤트 구현(해당 `li` 항목 제거, 제거 항목 배열에서 삭제 및 `localStorage` 업데이트)
-    - `li` 항목 제거(제거는 가능하나 새로고침 필요)
-
-## 성창식
-
-- 할 일 추가 및 삭제 구현
-    - 입력값(text → li)추가, 삭제 버튼 클릭 시 해당 항목 삭제 및 localStorage 업데이트
-- 완료/미완료 상태 토글
-    - 완료 버튼 클릭 시 해당 항목의 완료 상태(`true/false`)를 반전시키고, 아이콘과 텍스트 스타일을 변경하며 `localStorage`도 갱신합니다
-- 이벤트 위임 처리
-    - `ul`에 클릭 이벤트를 위임해 동적으로 생성되는 항목에서도 삭제/완료 버튼이 작동하도록 설정했습니다.
-
----
-
-<br>
-
-# 각 팀원별 원본 깃허브
-윤대웅 : https://github.com/yoon5450/MyToDoList
-
-정소영 : https://github.com/Young-mang/Team_GrowWeed_To-Do-List
-
-김윤지 : https://github.com/yoon00/To-Do-List
-
-성창식 : https://github.com/sikchang/Team_GrowWeed_To-Do-List
-
-손영웅 : https://github.com/heroson02/TodoList/
